@@ -1,7 +1,25 @@
 .jumbotron {
     text-align:center;
+    background-color:transparent;
+    color: rgb(36, 33, 1);
+    font-family: 'Ribeye', cursive;
+}
+
+.lead {
+    font-family: 'Michroma', sans-serif;
 }
 
 body{
-    margin: 0px 80px 20px 80px;
+    margin: 0px 220px 50px 220px;
+    background: url("../images/train.jpg") ;
+    background-size:cover;
+    font-family: 'Michroma', sans-serif;
+    color:rgb(36, 33, 1);
 }
+    
+
+
+.table, form {
+    background-color:rgba(245, 243, 206,.85);
+}
+
