@@ -5,7 +5,8 @@ $(document).ready(function () {
     var destination = "";
     var firstTrain = "";
     var freq = "";
-    var trainNum = [];
+    var trainNum = 0;
+    var trainArray=[];
 
     //create variable to reference database
     var database = firebase.database();
@@ -13,28 +14,42 @@ $(document).ready(function () {
     //grab value from form input
     $(".btn").on("click", function (event) {
         event.preventDefault();
-
+        trainNum++;
+        console.log(trainNum);
         train = $("#trainNameInput").val().trim();
         destination = $("#destinationInput").val().trim();
         firstTrain = $("#firstTrainInput").val().trim();
         freq = $("#frequencyInput").val().trim();
 
+        var num
         //store entry into firebase
         database.ref().push({
             train: train,
             destination: destination,
             firstTrain: firstTrain,
             freq: freq
+            
 
         });
+        database.ref().child(trainArray[trainNum]).set({
+            train: train,
+            destination: destination,
+            firstTrain: firstTrain,
+            freq: freq
+
+        })
 
         return false;
     });
     //append input every time child added from form
     database.ref().on("child_added", function (snapshot) {
-    $("#myTable tr:last").after("<tr><td>"+train +"</td><td>"+destination+"</td><td>"+firstTrain+"</td><td>"+freq+"</td><td>placeholder</td></tr>");
-    
-    
+        $("#myTable tr:last").after("<tr><td data-indexNum=" + trainNum + ">" + train +
+            "</td><td>" + destination +
+            "</td><td>" + firstTrain +
+            "</td><td>" + freq +
+            "</td><td>placeholder</td></tr>");
+
+
         //$("#destinationDisplay").append(destination);
         //$("#frequencyDisplay").append(freq);
 
