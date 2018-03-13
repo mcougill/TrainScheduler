@@ -32,10 +32,9 @@ $(document).ready(function () {
     });
     //append input every time child added from form
     database.ref().on("child_added", function (snapshot) {
-        
-       
-       // $("#trainView").append("<td>"+train +"</td>");
-        
+    $("#myTable tr:last").after("<tr><td>"+train +"</td><td>"+destination+"</td><td>"+firstTrain+"</td><td>"+freq+"</td><td>placeholder</td></tr>");
+    
+    
         //$("#destinationDisplay").append(destination);
         //$("#frequencyDisplay").append(freq);
 

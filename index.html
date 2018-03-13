@@ -35,18 +35,18 @@
     <div class="main">
 
 
-        <table class="table table-striped">
+        <table class="table table-striped" id="myTable">
             <thead>
                 <tr>
-                    <th scope="col" id="trainNameDisplay">Train Name</th>
-                    <th scope="col" id="destinationDisplay">Destination</th>
-                    <th scope="col" id="frequencyDisplay">Frequency (min)</th>
-                    <th scope="col" id="nextArrivalDisplay">Next Arrival</th>
-                    <th scope="col" id="minutesAwayDisplay">Minutes Away</th>
+                    <th id="trainNameDisplay">Train Name</th>
+                    <th id="destinationDisplay">Destination</th>
+                    <th id="frequencyDisplay">Frequency (min)</th>
+                    <th id="nextArrivalDisplay">Next Arrival</th>
+                    <th id="minutesAwayDisplay">Minutes Away</th> 
                 </tr>
             </thead>
-            <tbody>
-                <tr id="trainView">
+            <tbody id="trainView">
+               <tr>
 
                     <td>Polar Express</td>
                     <td>North Pole</td>
@@ -54,6 +54,13 @@
                     <td>20:30</td>
                     <td>30</td>
                 </tr>
+                <tr>
+                    <td>Santa's Sleigh</td>
+                    <td>Santa's Workshop</td>
+                    <td>60</td>
+                    <td>20:00</td>
+                    <td>25</td>
+                </tr> 
             </tbody>
         </table>
         <div class="panel panel-default">
@@ -82,7 +89,7 @@
 
 
                     <button type="submit" class="btn" id="submit">Submit</button>
-                    
+
                 </form>
             </div>
         </div>
