@@ -5,66 +5,57 @@ $(document).ready(function () {
     var destination = "";
     var firstTrain = "";
     var freq = "";
-    var trainNum = 0;
-    var trainArray=[];
 
-    //create variable to reference database
+    //create variable to reference firebase database
     var database = firebase.database();
+
+
 
     //grab value from form input
     $(".btn").on("click", function (event) {
         event.preventDefault();
-        trainNum++;
-        console.log(trainNum);
         train = $("#trainNameInput").val().trim();
         destination = $("#destinationInput").val().trim();
         firstTrain = $("#firstTrainInput").val().trim();
         freq = $("#frequencyInput").val().trim();
 
-        var num
-        //store entry into firebase
+        //store child entry into firebase
+        //firebase to host arrival and departure data
         database.ref().push({
             train: train,
             destination: destination,
             firstTrain: firstTrain,
             freq: freq
-            
-
         });
-        database.ref().child(trainArray[trainNum]).set({
-            train: train,
-            destination: destination,
-            firstTrain: firstTrain,
-            freq: freq
 
-        })
 
         return false;
     });
-    //append input every time child added from form
-    database.ref().on("child_added", function (snapshot) {
-        $("#myTable tr:last").after("<tr><td data-indexNum=" + trainNum + ">" + train +
-            "</td><td>" + destination +
-            "</td><td>" + firstTrain +
-            "</td><td>" + freq +
-            "</td><td>placeholder</td></tr>");
-
-
-        //$("#destinationDisplay").append(destination);
-        //$("#frequencyDisplay").append(freq);
-
-    })
 
 
 
 
+    //run function every time child (new train) added 
+    database.ref().on("child_added", function (childSnap) {
+
+        //momentJS conversions
+        var firstTimeConverted = moment(childSnap.val().firstTrain, "hh:mm").subtract(1, "years");
+        var currentTime = moment();
+        var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+        var remainder = diffTime % childSnap.val().freq;
+        var minUntilTrain = childSnap.val().freq - remainder;
+        var nextTrain = moment().add(minUntilTrain, "minutes");
+        var nextTrainFormatted = moment(nextTrain).format("hh:mm A");
+
+        //append input every time child added from form
+        $("#myTable tr:last").after("<tr><td>" + childSnap.val().train +
+            "</td><td>" + childSnap.val().destination +
+            "</td><td>" + childSnap.val().freq +
+            "</td><td>" + moment(nextTrain).format("hh:mm A") +
+            "</td><td>" + minUntilTrain + "</td></tr>");
 
 
-    //firebase to host arrival and departure data
-    //app to retrieve and manipulate this information with Moment.js
-    //app will provide up-to-date information about various trains (arrival time, how many minutes remain until they arrive at their station)
+    });
 
-    //firebase watcher + initial loader (.on("value"))
-    //change HTML to reflect
-    //Handle the errors 
-})
+
+});
